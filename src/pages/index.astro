@@ -1,0 +1,29 @@
+---
+const res = await fetch(`${import.meta.env.PUBLIC_API_URL}posts`);
+const posts = await res.json();
+const res2 = await fetch(`${import.meta.env.PUBLIC_API_URL}news`);
+const posts2 = await res2.json();
+---
+
+<main>
+  <h1>Welcome to <span class="text-gradient">Astro</span></h1>
+  {
+    posts.map((post: any) => (
+      <p>
+        <a href={`/skill/${post.slug}`} set:html={post.title.rendered} />
+      </p>
+    ))
+  }
+  {
+    posts2.map((post: any) => (
+      <p>
+        <a href={`/news/${post.slug}`} set:html={post.title.rendered} />
+      </p>
+    ))
+  }
+  <p class="instructions">
+    To get started, open the directory <code>src/pages</code> in your project.<br
+    />
+    <strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
+  </p>
+</main>

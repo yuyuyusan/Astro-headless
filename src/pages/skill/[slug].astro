@@ -1,0 +1,24 @@
+---
+const { slug } = Astro.params;
+const res = await fetch(
+  `${import.meta.env.PUBLIC_API_URL}posts?_embed&slug=${slug}`
+);
+const [post] = await res.json();
+const renderedContent = post.content.rendered;
+
+export async function getStaticPaths() {
+  const data = await fetch(`${import.meta.env.PUBLIC_API_URL}posts`);
+  const posts = await data.json();
+
+  return posts.map((post: any) => ({
+    params: { slug: post.slug },
+    props: { post: post },
+  }));
+}
+---
+
+<div title={post.title.rendered}>
+  <a href="/">Astro Blog</a>
+  <h1 set:html={post.title.rendered} />
+  <Fragment set:html={renderedContent} />
+</div>

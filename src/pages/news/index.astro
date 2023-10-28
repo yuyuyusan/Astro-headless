@@ -1,0 +1,22 @@
+---
+type News = {
+  id: number;
+  title: {
+    rendered: string;
+  };
+};
+const res = await fetch(`${import.meta.env.PUBLIC_API_URL}news`);
+const news = (await res.json()) as News[];
+---
+
+<main>
+  <ul>
+    {
+      news.map((item: any) => (
+        <li>
+          <a href={`/news/${item.slug}`} set:html={item.title.rendered} />
+        </li>
+      ))
+    }
+  </ul>
+</main>
